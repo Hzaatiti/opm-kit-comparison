@@ -1,0 +1,81 @@
+query($owner: String!, $repo: String!) {
+  repository(owner: $owner, name: $repo) {
+    projectsV2(first: 10) {
+      nodes {
+        title
+        items(first: 100) {
+          nodes {
+            content {
+              __typename
+              ... on Issue {
+                title
+                body
+                createdAt
+                updatedAt
+                state
+                author {
+                  login
+                }
+                assignees(first: 10) {
+                  nodes {
+                    login
+                  }
+                }
+                labels(first: 10) {
+                  nodes {
+                    name
+                  }
+                }
+              }
+              ... on PullRequest {
+                title
+                body
+                createdAt
+                updatedAt
+                state
+                author {
+                  login
+                }
+                assignees(first: 10) {
+                  nodes {
+                    login
+                  }
+                }
+                labels(first: 10) {
+                    nodes {
+                        name
+                    }
+                }
+              }
+              ... on DraftIssue {
+                title
+                body
+                createdAt
+                updatedAt
+                assignees(first: 10) {
+                  nodes {
+                    login
+                  }
+                }
+              }
+            }
+            fieldValues(first: 10) {
+              nodes {
+                __typename
+                ... on ProjectV2ItemFieldTextValue {
+                  text
+                }
+                ... on ProjectV2ItemFieldSingleSelectValue {
+                  name
+                }
+                ... on ProjectV2ItemFieldNumberValue {
+                  number
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
